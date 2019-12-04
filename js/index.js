@@ -6,7 +6,9 @@ let stations; //all the stations
 //onclick of refresh button
 
 
-$(document).on("click", "#refresh", function () {
+$(document).on("click", "#refresh", function (event) {
+    event.preventDefault();
+    $.mobile.loading("show");
     //using the ip location
     let access_key = '18d7766cdddd4e41af24b356f41f7bb3';
     let lat, lng;
@@ -29,6 +31,7 @@ $(document).on("click", "#refresh", function () {
                         Math.round(station.main.temp_max, 2) + '/' + Math.round(station.main.temp_min) + '</span>' +
                         station.name + '</a></li>')
                 });
+                $.mobile.loading("hide");
                 $('#stationList').listview('refresh');
             });
         }
@@ -38,6 +41,7 @@ $(document).on("click", "#refresh", function () {
 //navigation to details event
 $(document).on('pagebeforeshow', '#page1', function () {
     $(document).on('click', '#to_details', function (e) {
+        $.mobile.loading("show");
 
         //not doing the defualt things
         e.preventDefault();
@@ -47,6 +51,7 @@ $(document).on('pagebeforeshow', '#page1', function () {
         currentStation = stations[e.target.children[0].id];
         //change to the details page
         $.mobile.changePage("#detailsPage",{transition:'slide'});
+        $.mobile.loading("hide");
         //the icon  for the image is in currentStation.weather[0].icon
         //to generate the icon here is the sample url
         //
